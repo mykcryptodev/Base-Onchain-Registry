@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { type EntryResponse } from "~/types/entry";
+import { type Entry, type EntryResponse } from "~/types/entry";
 
 export const entriesRouter = createTRPCRouter({
   getEntries: publicProcedure
@@ -30,4 +30,13 @@ export const entriesRouter = createTRPCRouter({
         nextCursor: data.pagination.current_page + 1,
       };
     }),
+  getFeaturedEntry: publicProcedure
+    .query(async () => {
+      const baseUrl = 'https://base.org';
+      const path = '/api/registry/featured';
+      const url = new URL(path, baseUrl);
+      const res = await fetch(url.toString());
+      const data = await res.json() as { data: Entry };
+      return data.data;
+    })
 });

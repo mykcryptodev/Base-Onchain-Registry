@@ -1,11 +1,12 @@
 import Head from "next/head";
 import EntryCard from "~/components/EntryCard";
+import { EntryCardSkeleton } from "~/components/EntryCardSkeleton";
 import { type Entry } from "~/types/entry";
 
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const { data: entries, fetchNextPage } = api.entries.getEntries.useInfiniteQuery({
+  const { data: entries, isLoading, fetchNextPage } = api.entries.getEntries.useInfiniteQuery({
     limit: 10,
   }, {
     getNextPageParam: (lastPage) => {
@@ -14,6 +15,10 @@ export default function Home() {
       }
       return undefined;
     },
+  });
+  const { data: featuredEntry } = api.entries.getFeaturedEntry.useQuery(undefined, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -25,6 +30,14 @@ export default function Home() {
       </Head>
       <main className="flex flex-col gap-2 container max-w-7xl mx-auto mt-20">
         <h1 className="font-bold text-6xl text-center">Onchain Content Network</h1>
+        {featuredEntry && (
+          <div className="shadow-xl rounded-xl bg-gradient-to-br from-blue-500 via-teal-300 to-purple-500 text-white font-semibold p-0.5 mx-4 mt-10">
+            <div className="bg-white rounded-xl">
+              <EntryCard entry={featuredEntry} isFeatured />
+            </div>
+          </div>
+        )}
+        {!entries && isLoading && Array(10).fill(null).map((_, index) => <EntryCardSkeleton key={index} />)}
         {entries?.pages.map((page, pageIndex) => (
           page.data.map((entry: Entry, entryIndex) => {
             return (
