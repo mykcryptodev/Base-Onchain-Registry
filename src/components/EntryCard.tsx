@@ -1,124 +1,30 @@
 import { type FC } from "react";
-import { Fragment } from 'react'
-import { ArrowTopRightOnSquareIcon, StarIcon } from '@heroicons/react/20/solid'
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid'
 import { type Entry } from "~/types/entry";
 import Image from "next/image";
 import Link from "next/link";
 
-function classNames(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
 type Props = {
   entry: Entry;
+  isFeatured?: boolean;
 }
 
-export const EntryCard: FC<Props> = ({ entry }) => {
-  const product = {
-    name: 'Application UI Icon Pack',
-    version: { name: '1.0', date: 'June 5, 2021', datetime: '2021-06-05' },
-    price: '$220',
-    description:
-      'The Application UI Icon Pack comes with over 200 icons in 3 styles: outline, filled, and branded. This playful icon pack is tailored for complex application user interfaces with a friendly and legible look.',
-    highlights: [
-      '200+ SVG icons in 3 unique styles',
-      'Compatible with Figma, Sketch, and Adobe XD',
-      'Drawn on 24 x 24 pixel grid',
-    ],
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-05-product-01.jpg',
-    imageAlt: 'Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles.',
-  }
-  const reviews = {
-    average: 4,
-    featured: [
-      {
-        id: 1,
-        rating: 5,
-        content: `
-          <p>This icon pack is just what I need for my latest project. There's an icon for just about anything I could ever need. Love the playful look!</p>
-        `,
-        date: 'July 16, 2021',
-        datetime: '2021-07-16',
-        author: 'Emily Selman',
-        avatarSrc:
-          'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80',
-      },
-      {
-        id: 2,
-        rating: 5,
-        content: `
-          <p>Blown away by how polished this icon pack is. Everything looks so consistent and each SVG is optimized out of the box so I can use it directly with confidence. It would take me several hours to create a single icon this good, so it's a steal at this price.</p>
-        `,
-        date: 'July 12, 2021',
-        datetime: '2021-07-12',
-        author: 'Hector Gibbons',
-        avatarSrc:
-          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80',
-      },
-      // More reviews...
-    ],
-  }
-  const faqs = [
-    {
-      question: 'What format are these icons?',
-      answer:
-        'The icons are in SVG (Scalable Vector Graphic) format. They can be imported into your design tool of choice and used directly in code.',
-    },
-    {
-      question: 'Can I use the icons at different sizes?',
-      answer:
-        "Yes. The icons are drawn on a 24 x 24 pixel grid, but the icons can be scaled to different sizes as needed. We don't recommend going smaller than 20 x 20 or larger than 64 x 64 to retain legibility and visual balance.",
-    },
-    // More FAQs...
-  ]
-  const license = {
-    href: '#',
-    summary:
-      'For personal and professional use. You cannot resell or redistribute these icons in their original or modified state.',
-    content: `
-      <h4>Overview</h4>
-      
-      <p>For personal and professional use. You cannot resell or redistribute these icons in their original or modified state.</p>
-      
-      <ul role="list">
-      <li>You\'re allowed to use the icons in unlimited projects.</li>
-      <li>Attribution is not required to use the icons.</li>
-      </ul>
-      
-      <h4>What you can do with it</h4>
-      
-      <ul role="list">
-      <li>Use them freely in your personal and professional work.</li>
-      <li>Make them your own. Change the colors to suit your project or brand.</li>
-      </ul>
-      
-      <h4>What you can\'t do with it</h4>
-      
-      <ul role="list">
-      <li>Don\'t be greedy. Selling or distributing these icons in their original or modified state is prohibited.</li>
-      <li>Don\'t be evil. These icons cannot be used on websites or applications that promote illegal or immoral beliefs or activities.</li>
-      </ul>
-    `,
-  }
+export const EntryCard: FC<Props> = ({ entry, isFeatured }) => {
   if (!entry.content) return null;
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        {/* Product */}
+    <div>
+      <div className={`mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 ${isFeatured ? '!py-12' : ''}`}>
         <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
-          {/* Product image */}
+          {/* image */}
           <div className="lg:col-span-4 lg:row-end-1">
-            <div className="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">
-              <Image 
-                alt={entry.content.title} 
-                src={entry.content.image_url} 
-                className="object-cover object-center"
-                width={1200}
-                height={1600}
-              />
-            </div>
+            <Image 
+              alt={entry.content.title} 
+              src={entry.content.image_url} 
+              className="object-contain object-center rounded-lg"
+              width={1200}
+              height={1600}
+            />
           </div>
 
           {/* Product details */}
@@ -153,15 +59,20 @@ export const EntryCard: FC<Props> = ({ entry }) => {
 
               <div>
                 <h3 className="sr-only">Creator</h3>
-                <div className="flex items-center">
-                  <Image
-                    alt={entry.content.creator_name}
-                    src={entry.content.creator_image_url}
-                    className="h-6 w-6 rounded-full bg-gray-100"
-                    width={40}
-                    height={40}
-                  />
-                  <p className="ml-2 text-gray-500">{entry.content.creator_name}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <Image
+                      alt={entry.content.creator_name}
+                      src={entry.content.creator_image_url}
+                      className="h-6 w-6 rounded-full bg-gray-100"
+                      width={40}
+                      height={40}
+                    />
+                    <p className="ml-2 text-gray-500">{entry.content.creator_name}</p>
+                  </div>
+                  {isFeatured && (
+                    <div className="rounded-full w-24 h-6 flex items-center justify-center text-white bg-gradient-to-r from-blue-500 to-purple-500 text-sm">Featured</div>
+                  )}
                 </div>
               </div>
             </div>
