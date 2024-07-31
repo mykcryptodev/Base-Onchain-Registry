@@ -3,6 +3,7 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid'
 import { type Entry } from "~/types/entry";
 import Image from "next/image";
 import Link from "next/link";
+// import TransactionComponents from "~/components/TransactionButton";
 
 type Props = {
   entry: Entry;
@@ -80,6 +81,12 @@ export const EntryCard: FC<Props> = ({ entry, isFeatured }) => {
             <p className="mt-6 text-gray-500">{entry.content.full_description}</p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+              {/* <TransactionComponents
+                contractAddress={entry.content.contract_address}
+                functionSignature={entry.content.function_signature}
+                ctaText={entry.content.cta_text}
+                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              /> */}
               <Link
                 href={entry.content.target_url}
                 target="_blank"

@@ -19,7 +19,7 @@ export default function WalletComponents() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet>
+        <ConnectWallet withWalletAggregator className="rounded-lg">
           <Avatar className="h-6 w-6" />
           <Name />
         </ConnectWallet>
