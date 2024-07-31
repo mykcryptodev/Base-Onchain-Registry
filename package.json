@@ -10,6 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@coinbase/onchainkit": "^0.26.14",
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.5",
     "@t3-oss/env-nextjs": "^0.10.1",

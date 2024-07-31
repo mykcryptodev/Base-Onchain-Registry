@@ -1,6 +1,7 @@
 import Head from "next/head";
 import EntryCard from "~/components/EntryCard";
 import { EntryCardSkeleton } from "~/components/EntryCardSkeleton";
+import WalletComponents from "~/components/Wallet";
 import { type Entry } from "~/types/entry";
 
 import { api } from "~/utils/api";
@@ -20,6 +21,7 @@ export default function Home() {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+  console.log({ entries, featuredEntry });
 
   return (
     <>
@@ -29,6 +31,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex flex-col gap-2 container max-w-7xl mx-auto mt-20">
+        <WalletComponents />
         <h1 className="font-bold text-6xl text-center">Onchain Content Network</h1>
         {featuredEntry && (
           <div className="shadow-xl rounded-xl bg-gradient-to-br from-blue-500 via-teal-300 to-purple-500 text-white font-semibold p-0.5 mx-4 mt-10">
